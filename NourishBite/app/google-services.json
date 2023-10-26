@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "830293323903",
+    "project_id": "nourishbite-b312c",
+    "storage_bucket": "nourishbite-b312c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:830293323903:android:0fb4537398990e608ecf4a",
+        "android_client_info": {
+          "package_name": "com.example.nourishbite"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyACZZHepFVZ_eRn4gYJa2n2Wr8_FROyhs8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
