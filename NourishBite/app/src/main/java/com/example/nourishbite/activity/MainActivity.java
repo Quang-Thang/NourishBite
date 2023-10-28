@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
             if(isHasUser){
-                Intent intent = new Intent(MainActivity.this, UserProfileActivity.class);
+                Intent intent = new Intent(MainActivity.this, HomePageActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("object_user", mUser);
                 intent.putExtras(bundle);
@@ -101,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
         userService = UserRepository.getUserService();
 
 
-        Call<List<User>> call =   userService.getAllUser();
+        Call<List<User>> call = userService.getAllUser();
         call.enqueue(new Callback<List<User>>() {
             @Override
             public void onResponse(Call<List<User>> call, Response<List<User>> response) {

@@ -26,8 +26,9 @@ public class UserProfileActivity extends AppCompatActivity {
     UserService userService;
     EditText txtEmail, txtUserName, txtAddress, txtPassword;
     ImageView editBtn;
-    Button updateBtn;
+    Button updateBtn, shopBtn;
     int userId;
+    User passUser;
 
 
     @Override
@@ -49,6 +50,8 @@ public class UserProfileActivity extends AppCompatActivity {
                 txtPassword.setText(user.getPassword());
                 txtAddress.setText(user.getAddress());
                 userId = user.getId();
+
+                passUser = user;
             }
         }
 
@@ -71,6 +74,17 @@ public class UserProfileActivity extends AppCompatActivity {
                 User newInfo = new User(newEmail ,newUserName, newPassword, newAddress);
                 updateUser(userId, newInfo);
 
+            }
+        });
+
+        shopBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(UserProfileActivity.this, HomePageActivity.class);
+                Bundle bundle1 = new Bundle();
+                bundle1.putSerializable("passUser", passUser);
+                intent.putExtras(bundle1);
+                startActivity(intent);
             }
         });
 
@@ -125,5 +139,6 @@ public class UserProfileActivity extends AppCompatActivity {
         txtUserName = findViewById(R.id.txtUserName);
         editBtn = findViewById(R.id.editButton);
         updateBtn = findViewById(R.id.updateButton);
+        shopBtn = findViewById(R.id.shopButton);
     }
 }

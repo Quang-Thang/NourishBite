@@ -1,8 +1,9 @@
 package com.example.nourishbite.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Payment {
+public class Payment implements Serializable {
     private int id;
     private Date paymentDate;
     private String paymentMethod;

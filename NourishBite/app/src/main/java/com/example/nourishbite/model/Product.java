@@ -1,7 +1,9 @@
 package com.example.nourishbite.model;
 
-public class Product {
-    private int id;
+import java.io.Serializable;
+
+public class Product implements Serializable {
+    private int productId;
     private String name;
     private float price;
     private String description;
@@ -9,8 +11,8 @@ public class Product {
     private boolean status;
     private Material material;
 
-    public Product(int id, String name, float price, String description, String image, boolean status, Material material) {
-        this.id = id;
+    public Product(int productId, String name, float price, String description, String image, boolean status, Material material) {
+        this.productId = productId;
         this.name = name;
         this.price = price;
         this.description = description;
@@ -19,12 +21,21 @@ public class Product {
         this.material = material;
     }
 
-    public int getId() {
-        return id;
+    public Product(String name, float price, String description, String image, boolean status, Material material) {
+        this.name = name;
+        this.price = price;
+        this.description = description;
+        this.image = image;
+        this.status = status;
+        this.material = material;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public int getProductId() {
+        return productId;
+    }
+
+    public void setProductId(int productId) {
+        this.productId = productId;
     }
 
     public String getName() {

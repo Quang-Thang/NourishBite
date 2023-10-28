@@ -1,22 +1,22 @@
 package com.example.nourishbite.model;
 
 public class Material {
-    private int id;
+    private int materialId;
     private String name;
     private String description;
 
-    public Material(int id, String name, String description) {
-        this.id = id;
+    public Material(int materialId, String name, String description) {
+        this.materialId = materialId;
         this.name = name;
         this.description = description;
     }
 
-    public int getId() {
-        return id;
+    public int getmaterialId() {
+        return materialId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setmaterialId(int id) {
+        this.materialId = id;
     }
 
     public String getName() {

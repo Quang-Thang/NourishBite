@@ -1,6 +1,8 @@
 package com.example.nourishbite.model;
 
-public class OrderDetail {
+import java.io.Serializable;
+
+public class OrderDetail implements Serializable {
     private int id;
     private int amount;
     private float price;
