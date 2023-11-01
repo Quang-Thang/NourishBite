@@ -35,18 +35,19 @@
             android:textStyle="bold"
             android:textSize="15dp"
             android:textColor="#000"
+            android:ellipsize="end"
+            android:maxLines="1"
 
             />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_weight="2"
             >
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/smaller_star_icon"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/small_star_icon"
                 android:layout_marginRight="5dp"
                 android:layout_gravity="center"
                 />

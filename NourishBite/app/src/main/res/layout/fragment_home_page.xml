@@ -76,6 +76,15 @@
             android:layout_below="@+id/bestSeller"
  />
 
+        <Button
+            android:id="@+id/productDetail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:text="Product Detail"
+            android:layout_below="@+id/rcvProduct"
+            />
+
     </RelativeLayout>
     </ScrollView>
 

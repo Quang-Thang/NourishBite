@@ -7,19 +7,20 @@
 
     <fragment
         android:id="@+id/FirstFragment"
-        android:name="com.example.nourishbite.activity.FirstFragment"
+        android:name="com.example.nourishbite.fragment.HomePageFragment"
         android:label="@string/first_fragment_label"
-        tools:layout="@layout/fragment_first">
+        tools:layout="@layout/fragment_home_page">
 
         <action
             android:id="@+id/action_FirstFragment_to_SecondFragment"
             app:destination="@id/SecondFragment" />
     </fragment>
+
     <fragment
         android:id="@+id/SecondFragment"
-        android:name="com.example.nourishbite.activity.SecondFragment"
+        android:name="com.example.nourishbite.fragment.ProductDetailFragment"
         android:label="@string/second_fragment_label"
-        tools:layout="@layout/fragment_second">
+        tools:layout="@layout/fragment_product_detail">
 
         <action
             android:id="@+id/action_SecondFragment_to_FirstFragment"

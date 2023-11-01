@@ -1,7 +1,10 @@
 package com.example.nourishbite.fragment;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -11,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.SearchView;
 import android.widget.Toast;
 
@@ -18,6 +22,7 @@ import com.denzcoskun.imageslider.ImageSlider;
 import com.denzcoskun.imageslider.constants.ScaleTypes;
 import com.denzcoskun.imageslider.models.SlideModel;
 import com.example.nourishbite.R;
+import com.example.nourishbite.activity.ProductDetailActivity;
 import com.example.nourishbite.adapter.ProductAdapter;
 import com.example.nourishbite.api.ProductRepository;
 import com.example.nourishbite.model.Product;
@@ -40,13 +45,17 @@ public class HomePageFragment extends Fragment {
     private RecyclerView rcvProduct;
 
     private View view;
+    private Button productDetail;
     private List<Product> mProductList;
     ProductService productService;
 
     private SearchView searchView;
 
     ProductAdapter productAdapter;
-
+    private ProductClickListener listener;
+    public interface ProductClickListener{
+        void onProductClicked(int productId);
+    }
 
     public HomePageFragment() {
         // Required empty public constructor
@@ -55,6 +64,16 @@ public class HomePageFragment extends Fragment {
     public static HomePageFragment newInstance(){
 
         return new HomePageFragment();
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        if (context instanceof ProductClickListener){
+            listener = (ProductClickListener) context;
+        }else{
+            throw new ClassCastException(context.toString() + "must implement ProductClickListener");
+        }
     }
 
     @Override
@@ -76,11 +95,18 @@ public class HomePageFragment extends Fragment {
             }
         });
 
+        productDetail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), ProductDetailActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
+
 
         ArrayList<SlideModel> imageList = new ArrayList<>(); // Create image list
-
-// imageList.add(new SlideModel("String Url" or R.drawable)
-// imageList.add(new SlideModel("String Url" or R.drawable, "title") You can add title
 
         imageList.add(new SlideModel("https://massageishealthy.com/wp-content/uploads/2018/05/cach-lam-banh-yen-mach-nuong-giam-can-15.jpg", "Life is short, eat dessert first... and make it a healthy one!", ScaleTypes.CENTER_CROP));
         imageList.add(new SlideModel("https://th.bing.com/th/id/OIP.GGlHesx4vXEbJK6IeAQ6IQHaFj?pid=ImgDet&rs=1", "Dieting doesn't mean dessert is off the table, it means you choose better.", ScaleTypes.CENTER_CROP));
@@ -92,15 +118,9 @@ public class HomePageFragment extends Fragment {
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2);
         rcvProduct.setLayoutManager(gridLayoutManager);
 
-/*        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-        rcvProduct.setLayoutManager(linearLayoutManager);
-
-        DividerItemDecoration itemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
-        rcvProduct.addItemDecoration(itemDecoration);*/
-
-
         mProductList = new ArrayList<>();
         showProductList();
+
         // Inflate the layout for this fragment
         return view;
     }
@@ -144,5 +164,10 @@ public class HomePageFragment extends Fragment {
     private void Mapping(){
         rcvProduct = view.findViewById(R.id.rcvProduct);
         searchView = view.findViewById(R.id.searchView);
+        productDetail = view.findViewById(R.id.productDetail);
+    }
+
+    private void onProductClicked(int productId){
+        listener.onProductClicked(productId);
     }
 }

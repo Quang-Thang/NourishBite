@@ -1,5 +1,6 @@
 package com.example.nourishbite.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -9,6 +10,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavDirections;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
@@ -21,7 +23,7 @@ import com.example.nourishbite.viewmodel.UserViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.tabs.TabLayout;
 
-public class HomePageActivity extends AppCompatActivity {
+public class HomePageActivity extends AppCompatActivity implements HomePageFragment.ProductClickListener {
 
     private TabLayout mTabLayout;
     private ViewPager mViewPager;
@@ -43,6 +45,7 @@ public class HomePageActivity extends AppCompatActivity {
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(),
                 FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         mViewPager.setAdapter(viewPagerAdapter);
+        mViewPager.setOffscreenPageLimit(2);
 
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -108,10 +111,14 @@ public class HomePageActivity extends AppCompatActivity {
                 UserProfileFragment userProfileFragment = UserProfileFragment.newInstance();
                 userProfileFragment.setUserData(user);
                 currentUserId = user.getId();
-                Toast.makeText(this, user.toString(), Toast.LENGTH_SHORT).show();
                 UserViewModel userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
                 userViewModel.setUser(user);
             }
         }
+    }
+
+    @Override
+    public void onProductClicked(int productId) {
+
     }
 }
