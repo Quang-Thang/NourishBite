@@ -23,7 +23,7 @@ import com.example.nourishbite.viewmodel.UserViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.tabs.TabLayout;
 
-public class HomePageActivity extends AppCompatActivity implements HomePageFragment.ProductClickListener {
+public class HomePageActivity extends AppCompatActivity{
 
     private TabLayout mTabLayout;
     private ViewPager mViewPager;
@@ -117,8 +117,4 @@ public class HomePageActivity extends AppCompatActivity implements HomePageFragm
         }
     }
 
-    @Override
-    public void onProductClicked(int productId) {
-
-    }
 }

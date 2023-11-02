@@ -2,6 +2,7 @@ package com.example.nourishbite.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,6 +14,7 @@ import android.widget.Toast;
 
 import com.example.nourishbite.R;
 import com.example.nourishbite.api.UserRepository;
+import com.example.nourishbite.dialog.CustomProgressDialog;
 import com.example.nourishbite.model.User;
 import com.example.nourishbite.service.UserService;
 import com.google.firebase.auth.FirebaseAuth;
@@ -44,10 +46,13 @@ public class MainActivity extends AppCompatActivity {
         mUserList = new ArrayList<>();
         getListUsers();
 
+        final CustomProgressDialog dialog = new CustomProgressDialog(MainActivity.this);
+
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 clickLogin();
+                dialog.show();
             }
         });
 

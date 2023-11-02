@@ -1,5 +1,7 @@
 package com.example.nourishbite.adapter;
 
+import android.app.ProgressDialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.text.Spannable;
@@ -12,10 +14,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.nourishbite.activity.ProductDetailActivity;
 import com.example.nourishbite.api.ProductRepository;
 import com.example.nourishbite.service.ProductService;
 import com.squareup.picasso.Picasso;
@@ -31,7 +36,7 @@ import retrofit2.Response;
 
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductViewHolder>{
     private List<Product> mListProduct;
-
+    public static int currentProductId;
 
     public ProductAdapter(List<Product> mListProduct) {
         this.mListProduct = mListProduct;
@@ -52,7 +57,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
 
     @Override
     public void onBindViewHolder(@NonNull ProductViewHolder holder, int position) {
-        Product product = mListProduct.get(position);
+        final Product product = mListProduct.get(position);
         if(product == null){
             return;
         }
@@ -70,7 +75,15 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         String imageUrl = product.getImage();
 
         Picasso.get().load(imageUrl).into(holder.productImg);
-
+        holder.productCV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), ProductDetailActivity.class);
+                intent.putExtra("currentProductId", product.getProductId());
+                v.getContext().startActivity(intent);
+                ProgressDialog progressDialog = ProgressDialog.show(v.getContext(), "Loading...", "");
+            }
+        });
 
 
     }
@@ -86,6 +99,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     public static class ProductViewHolder extends RecyclerView.ViewHolder{
 
         private final TextView tvName, tvMaterial, tvPrice;
+        private CardView productCV;
         private final ImageView productImg;
 
         public ProductViewHolder(@NonNull View itemView) {
@@ -94,6 +108,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             tvMaterial = itemView.findViewById(R.id.tvMaterial);
             tvPrice = itemView.findViewById(R.id.tvPrice);
             productImg = itemView.findViewById(R.id.productImage);
+            productCV = itemView.findViewById(R.id.productCardView);
         }
     }
 

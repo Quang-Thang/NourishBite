@@ -22,6 +22,7 @@ import com.denzcoskun.imageslider.ImageSlider;
 import com.denzcoskun.imageslider.constants.ScaleTypes;
 import com.denzcoskun.imageslider.models.SlideModel;
 import com.example.nourishbite.R;
+import com.example.nourishbite.activity.HomePageActivity;
 import com.example.nourishbite.activity.ProductDetailActivity;
 import com.example.nourishbite.adapter.ProductAdapter;
 import com.example.nourishbite.api.ProductRepository;
@@ -45,13 +46,13 @@ public class HomePageFragment extends Fragment {
     private RecyclerView rcvProduct;
 
     private View view;
-    private Button productDetail;
     private List<Product> mProductList;
     ProductService productService;
 
     private SearchView searchView;
 
     ProductAdapter productAdapter;
+    private static final int MY_REQUEST_CODE = 1;
     private ProductClickListener listener;
     public interface ProductClickListener{
         void onProductClicked(int productId);
@@ -69,11 +70,6 @@ public class HomePageFragment extends Fragment {
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        if (context instanceof ProductClickListener){
-            listener = (ProductClickListener) context;
-        }else{
-            throw new ClassCastException(context.toString() + "must implement ProductClickListener");
-        }
     }
 
     @Override
@@ -81,6 +77,9 @@ public class HomePageFragment extends Fragment {
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_home_page, container, false);
         Mapping();
+
+
+
         searchView.clearFocus();
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -94,17 +93,6 @@ public class HomePageFragment extends Fragment {
                 return true;
             }
         });
-
-        productDetail.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), ProductDetailActivity.class);
-                startActivity(intent);
-            }
-        });
-
-
-
 
         ArrayList<SlideModel> imageList = new ArrayList<>(); // Create image list
 
@@ -150,7 +138,6 @@ public class HomePageFragment extends Fragment {
                     mProductList = response.body();
                     productAdapter = new ProductAdapter(mProductList);
                     rcvProduct.setAdapter(productAdapter);
-
                 }
             }
 
@@ -161,13 +148,12 @@ public class HomePageFragment extends Fragment {
         });
     }
 
+
+
     private void Mapping(){
         rcvProduct = view.findViewById(R.id.rcvProduct);
         searchView = view.findViewById(R.id.searchView);
-        productDetail = view.findViewById(R.id.productDetail);
     }
 
-    private void onProductClicked(int productId){
-        listener.onProductClicked(productId);
-    }
+
 }
