@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.os.Handler;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
@@ -22,6 +23,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.nourishbite.activity.ProductDetailActivity;
 import com.example.nourishbite.api.ProductRepository;
+import com.example.nourishbite.dialog.CustomProgressDialog;
 import com.example.nourishbite.service.ProductService;
 import com.squareup.picasso.Picasso;
 
@@ -58,6 +60,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     @Override
     public void onBindViewHolder(@NonNull ProductViewHolder holder, int position) {
         final Product product = mListProduct.get(position);
+
         if(product == null){
             return;
         }
@@ -78,10 +81,23 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         holder.productCV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), ProductDetailActivity.class);
-                intent.putExtra("currentProductId", product.getProductId());
-                v.getContext().startActivity(intent);
-                ProgressDialog progressDialog = ProgressDialog.show(v.getContext(), "Loading...", "");
+
+
+                final CustomProgressDialog dialog = new CustomProgressDialog(v.getContext());
+
+                dialog.show();
+
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        Intent intent = new Intent(v.getContext(), ProductDetailActivity.class);
+                        intent.putExtra("currentProductId", product.getProductId());
+                        v.getContext().startActivity(intent);
+
+                        dialog.cancel();
+                    }
+                }, 2000);
             }
         });
 

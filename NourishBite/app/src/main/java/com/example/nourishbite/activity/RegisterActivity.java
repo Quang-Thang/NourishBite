@@ -2,6 +2,7 @@ package com.example.nourishbite.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -14,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.nourishbite.R;
 import com.example.nourishbite.api.UserRepository;
+import com.example.nourishbite.dialog.CustomProgressDialog;
 import com.example.nourishbite.model.User;
 import com.example.nourishbite.service.UserService;
 
@@ -35,10 +37,22 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register);
         Mapping();
 
+        final CustomProgressDialog dialog = new CustomProgressDialog(RegisterActivity.this);
+
         registerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                dialog.show();
                 createUser();
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        dialog.cancel();
+                    }
+                }, 2000);
+
 
             }
         });
@@ -47,7 +61,18 @@ public class RegisterActivity extends AppCompatActivity {
         haveAccLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                clickLogin();
+                dialog.show();
+
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        clickLogin();
+
+                        dialog.cancel();
+                    }
+                }, 2000);
+
             }
         });
 
@@ -70,6 +95,7 @@ public class RegisterActivity extends AppCompatActivity {
             Toast.makeText(this, "Please input User Name", Toast.LENGTH_SHORT).show();
         }else{
             try {
+                userService = UserRepository.getUserService();
                 Call<User> call = userService.createUser(createUser);
                 call.enqueue(new Callback<User>() {
                     @Override
@@ -88,7 +114,7 @@ public class RegisterActivity extends AppCompatActivity {
                 Log.d("Error ", e.getMessage());
             }
 
-            userService = UserRepository.getUserService();
+
         }
 
     }

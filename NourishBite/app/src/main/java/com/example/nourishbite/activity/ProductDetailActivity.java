@@ -3,6 +3,7 @@ package com.example.nourishbite.activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -14,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.nourishbite.R;
 import com.example.nourishbite.api.ProductRepository;
+import com.example.nourishbite.dialog.CustomProgressDialog;
 import com.example.nourishbite.model.Product;
 import com.example.nourishbite.service.ProductService;
 import com.squareup.picasso.Picasso;
@@ -38,6 +40,8 @@ public class ProductDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_product_detail);
         Mapping();
 
+        final CustomProgressDialog dialog = new CustomProgressDialog(ProductDetailActivity.this);
+
         currentProductId = getIntent().getIntExtra("currentProductId", 1);
 
         getProductById(currentProductId);
@@ -46,12 +50,21 @@ public class ProductDetailActivity extends AppCompatActivity {
         returnBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ProductDetailActivity.this, HomePageActivity.class);
-                startActivity(intent);
+
                 amount = 1;
-                ProgressDialog progressDialog = new ProgressDialog(ProductDetailActivity.this);
-                progressDialog.setTitle("Please wait...");
-                progressDialog.show();
+
+                dialog.show();
+
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        Intent intent = new Intent(ProductDetailActivity.this, HomePageActivity.class);
+                        startActivity(intent);
+                        dialog.cancel();
+                    }
+                }, 2000);
+
             }
         });
 
