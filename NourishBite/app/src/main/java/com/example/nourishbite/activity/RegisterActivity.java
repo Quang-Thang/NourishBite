@@ -36,24 +36,12 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         Mapping();
-
         final CustomProgressDialog dialog = new CustomProgressDialog(RegisterActivity.this);
 
         registerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialog.show();
                 createUser();
-                Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-
-                        dialog.cancel();
-                    }
-                }, 2000);
-
-
             }
         });
 
@@ -61,18 +49,7 @@ public class RegisterActivity extends AppCompatActivity {
         haveAccLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialog.show();
-
-                Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        clickLogin();
-
-                        dialog.cancel();
-                    }
-                }, 2000);
-
+                clickLogin();
             }
         });
 
@@ -101,7 +78,25 @@ public class RegisterActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(Call<User> call, Response<User> response) {
                         if(response.body() != null){
-                            Toast.makeText(RegisterActivity.this, "User Created Successfully", Toast.LENGTH_SHORT).show();
+                            final CustomProgressDialog dialog = new CustomProgressDialog(RegisterActivity.this);
+
+                            dialog.show();
+
+                            Handler handler = new Handler();
+                            handler.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(RegisterActivity.this, "User Created Successfully", Toast.LENGTH_SHORT).show();
+                                    User newUser = new User(response.body().getEmail(), response.body().getPassword());
+                                    Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
+                                    Bundle bundle = new Bundle();
+                                    bundle.putSerializable("newUser", newUser);
+                                    intent.putExtras(bundle);
+                                    startActivity(intent);
+                                }
+                            }, 2000);
+
+
                         }
                     }
 
@@ -120,8 +115,21 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void clickLogin(){
-        Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
-        startActivity(intent);
+        final CustomProgressDialog dialog = new CustomProgressDialog(RegisterActivity.this);
+
+        dialog.show();
+
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
+                startActivity(intent);
+                dialog.cancel();
+            }
+        }, 2000);
+
+
     }
 
     public void Mapping(){

@@ -49,6 +49,15 @@ public class MainActivity extends AppCompatActivity {
 
         final CustomProgressDialog dialog = new CustomProgressDialog(MainActivity.this);
 
+        Bundle bundle = getIntent().getExtras();
+        if(bundle != null){
+            User newUser = (User) bundle.getSerializable("newUser");
+            if (newUser != null){
+                txtEmail.setText(newUser.getEmail());
+                txtPassword.setText(newUser.getPassword());
+            }
+        }
+
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -116,8 +125,6 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         }
-
-
     }
 
     private void clickRegister(){
